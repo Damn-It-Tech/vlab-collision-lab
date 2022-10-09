@@ -11,15 +11,19 @@ class ActionBox extends StatefulWidget {
 
 class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
+
   int xOne = 0;
   int xTwo = 750;
+
   int v1 = 1;
   int v2 = 1;
+
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(milliseconds: 1), (Timer t) {
       setState(() {
+        //checking edge case for sphere 1
         if (xOne > 750) {
           v1 = -v1;
         }
@@ -28,6 +32,7 @@ class _ActionBoxState extends State<ActionBox> {
         }
         xOne += v1 * 1;
 
+        //checking edge case for sphere 2
         if (xTwo > 750) {
           v2 = -v2;
         }
@@ -36,6 +41,7 @@ class _ActionBoxState extends State<ActionBox> {
         }
         xTwo += v2 * 1;
 
+        //checking if collision is happening
         if ((xOne - xTwo).abs() < 51) {
           //use equations and give v1 and v2 new values
           v1 = -v1;
