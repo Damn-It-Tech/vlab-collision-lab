@@ -11,23 +11,36 @@ class ActionBox extends StatefulWidget {
 
 class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
-  int xValue = 0;
-  bool moveright = true;
+  int xOne = 0;
+  int xTwo = 750;
+  int v1 = 1;
+  int v2 = 1;
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(milliseconds: 1), (Timer t) {
       setState(() {
-        if (xValue > 750) {
-          moveright = false;
+        if (xOne > 750) {
+          v1 = -v1;
         }
-        if (xValue < 0) {
-          moveright = true;
+        if (xOne < 0) {
+          v1 = -v1;
         }
-        if (moveright)
-          xValue += 1;
-        else
-          xValue -= 1;
+        xOne += v1 * 1;
+
+        if (xTwo > 750) {
+          v2 = -v2;
+        }
+        if (xTwo < 0) {
+          v2 = -v2;
+        }
+        xTwo += v2 * 1;
+
+        if ((xOne - xTwo).abs() < 51) {
+          //use equations and give v1 and v2 new values
+          v1 = -v1;
+          v2 = -v2;
+        }
       });
     });
   }
@@ -38,11 +51,11 @@ class _ActionBoxState extends State<ActionBox> {
     super.dispose();
   }
 
-  Widget getSphere() {
+  Widget getSphere(Color? sphereColor) {
     return Container(
       height: 50,
       width: 50,
-      decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: sphereColor),
     );
   }
 
@@ -59,17 +72,17 @@ class _ActionBoxState extends State<ActionBox> {
           ),
         ),
         Positioned(
-          left: xValue.ceilToDouble(),
+          left: xOne.ceilToDouble(),
           top: 0,
           bottom: 0,
-          child: getSphere(),
+          child: getSphere(Colors.red),
         ),
-        // Positioned(
-        //   right: xValue.ceilToDouble(),
-        //   top: 0,
-        //   bottom: 0,
-        //   child: getSphere(),
-        // )
+        Positioned(
+          left: xTwo.ceilToDouble(),
+          top: 0,
+          bottom: 0,
+          child: getSphere(Colors.green),
+        )
       ],
     );
   }
