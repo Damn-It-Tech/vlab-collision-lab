@@ -63,7 +63,13 @@ class _ActionBoxState extends State<ActionBox> {
           top: 0,
           bottom: 0,
           child: getSphere(),
-        )
+        ),
+        // Positioned(
+        //   right: xValue.ceilToDouble(),
+        //   top: 0,
+        //   bottom: 0,
+        //   child: getSphere(),
+        // )
       ],
     );
   }
