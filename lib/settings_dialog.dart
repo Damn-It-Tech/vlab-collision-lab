@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vlab1/actions_view.dart';
+
+import 'providers.dart';
 
 class SettingsDialog extends StatelessWidget {
-  SettingsDialog({Key? key}) : super(key: key);
-
-  final TextEditingController m1 = TextEditingController();
+  const SettingsDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ActionsView actionsView = context.read(actionsViewProvider);
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
       child: SizedBox(
@@ -61,7 +64,7 @@ class SettingsDialog extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter mass of first object',
                               ),
-                              controller: m1,
+                              controller: actionsView.m1,
                               maxLines: 1,
                               maxLength: 3,
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -87,7 +90,7 @@ class SettingsDialog extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter mass of second object',
                               ),
-                              controller: m1,
+                              controller: actionsView.m2,
                               maxLines: 1,
                               maxLength: 3,
                               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -97,61 +100,61 @@ class SettingsDialog extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Z1",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter charge of first object',
-                              ),
-                              controller: m1,
-                              maxLines: 1,
-                              maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Z2",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter charge of second object',
-                              ),
-                              controller: m1,
-                              maxLines: 1,
-                              maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   children: [
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         Text(
+                  //           "Z1",
+                  //           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 200,
+                  //           child: TextField(
+                  //             decoration: const InputDecoration(
+                  //               border: OutlineInputBorder(),
+                  //               hintText: 'Enter charge of first object',
+                  //             ),
+                  //             controller: m1,
+                  //             maxLines: 1,
+                  //             maxLength: 3,
+                  //             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 50,
+                  //     ),
+                  //     Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           "Z2",
+                  //           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 200,
+                  //           child: TextField(
+                  //             decoration: const InputDecoration(
+                  //               border: OutlineInputBorder(),
+                  //               hintText: 'Enter charge of second object',
+                  //             ),
+                  //             controller: m1,
+                  //             maxLines: 1,
+                  //             maxLength: 3,
+                  //             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ],
