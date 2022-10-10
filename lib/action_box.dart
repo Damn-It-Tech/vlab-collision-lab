@@ -45,8 +45,7 @@ class _ActionBoxState extends State<ActionBox> {
         //checking if collision is happening
         if ((_actionsView.xOne - _actionsView.xTwo).abs() < AppConfigs.sizeOfBall) {
           //use equations and give v1 and v2 new values
-          _actionsView.reverseV1();
-          _actionsView.reverseV2();
+          _actionsView.updateVelocitiesAfterCollision();
         }
       });
     });
