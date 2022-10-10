@@ -1,19 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:vlab1/app_config.dart';
 
-class ActionsView {
-  late double xOne;
-  late double xTwo;
+class ActionsView with ChangeNotifier {
+  late double xOne = 0;
+  late double xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
 
-  late int v1;
-  late int v2;
+  late double v1;
+  late double v2;
+  int _m1 = 3;
+  int _m2 = 1;
 
   final int delT = 1;
 
   void initValues() {
-    xOne = 0;
-    xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
-    v1 = 1;
-    v2 = 1;
+    // xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
+    v1 = ((_m1 - _m2) / (_m1 + _m2)) * xOne + 2 * (_m2 * xTwo) / (_m1 + _m2);
+    v2 = ((_m2 - _m1) / (_m1 + _m2)) * xTwo + 2 * (_m2 * xOne) / (_m1 + _m2);
   }
 
   void reverseV1() {
@@ -30,5 +32,22 @@ class ActionsView {
 
   void updateXTwo() {
     xTwo += v2 * delT;
+  }
+
+  int get m1 => _m1;
+  set m1(int m1) {
+    _m1 = m1;
+    notifyListeners();
+  }
+
+  int get m2 => _m2;
+  set m2(int m2) {
+    _m2 = m2;
+    notifyListeners();
+  }
+
+  void updateVelocity() {
+    v1 = ((_m1 - _m2) / (_m1 + _m2)) * xOne + 2 * (_m2 * xTwo) / (_m1 + _m2);
+    v2 = ((_m2 - _m1) / (_m1 + _m2)) * xTwo + 2 * (_m2 * xOne) / (_m1 + _m2);
   }
 }

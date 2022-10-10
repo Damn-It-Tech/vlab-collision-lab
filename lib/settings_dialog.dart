@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vlab1/actions_view.dart';
 
 class SettingsDialog extends StatelessWidget {
   SettingsDialog({Key? key}) : super(key: key);
 
   final TextEditingController m1 = TextEditingController();
+  final TextEditingController m2 = TextEditingController();
+  final TextEditingController m3 = TextEditingController();
+  final TextEditingController m4 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    ActionsView actionsView = ActionsView();
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)), //this right here
       child: SizedBox(
         height: 400,
         width: 500,
@@ -37,7 +43,8 @@ class SettingsDialog extends StatelessWidget {
                 children: [
                   Text(
                     "Settings",
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 30),
+                    style:
+                        GoogleFonts.poppins(color: Colors.black, fontSize: 30),
                   ),
                   const SizedBox(
                     height: 30,
@@ -52,7 +59,8 @@ class SettingsDialog extends StatelessWidget {
                         children: [
                           Text(
                             "M1",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           SizedBox(
                             width: 200,
@@ -64,7 +72,9 @@ class SettingsDialog extends StatelessWidget {
                               controller: m1,
                               maxLines: 1,
                               maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                             ),
                           ),
                         ],
@@ -78,7 +88,8 @@ class SettingsDialog extends StatelessWidget {
                         children: [
                           Text(
                             "M2",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           SizedBox(
                             width: 200,
@@ -87,10 +98,18 @@ class SettingsDialog extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter mass of second object',
                               ),
-                              controller: m1,
+                              onChanged: (str) {
+                                actionsView.m1 = int.parse(str);
+                                actionsView.updateVelocity();
+                                // print(str);
+                                print(actionsView.m1);
+                              },
+                              controller: m2,
                               maxLines: 1,
                               maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                             ),
                           ),
                         ],
@@ -107,7 +126,8 @@ class SettingsDialog extends StatelessWidget {
                         children: [
                           Text(
                             "Z1",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           SizedBox(
                             width: 200,
@@ -116,10 +136,12 @@ class SettingsDialog extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter charge of first object',
                               ),
-                              controller: m1,
+                              controller: m3,
                               maxLines: 1,
                               maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                             ),
                           ),
                         ],
@@ -133,7 +155,8 @@ class SettingsDialog extends StatelessWidget {
                         children: [
                           Text(
                             "Z2",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           SizedBox(
                             width: 200,
@@ -142,10 +165,12 @@ class SettingsDialog extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Enter charge of second object',
                               ),
-                              controller: m1,
+                              controller: m4,
                               maxLines: 1,
                               maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
                             ),
                           ),
                         ],
