@@ -36,6 +36,7 @@ class ButtonsRow extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
+            actionsView.isPaused = false;
             actionsView.initValues();
           },
           child: Image.asset(
