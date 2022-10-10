@@ -45,7 +45,7 @@ class ActionsView {
     double u1 = v1;
     double u2 = v2;
     v1 = ((massOne! - massTwo!) / (massOne! + massTwo!)) * u1 + 2 * (massTwo! * u2) / (massOne! + massTwo!);
-    v2 = ((massTwo! - massOne!) / (massOne! + massTwo!)) * u2 + 2 * (massTwo! * u1) / (massOne! + massTwo!);
+    v2 = ((massTwo! - massOne!) / (massOne! + massTwo!)) * u2 + 2 * (massOne! * u1) / (massOne! + massTwo!);
 
     print("vel: u1:$u1, u2:$u2, v1:$v1, v2:$v2");
   }
