@@ -1,31 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:vlab1/providers.dart';
 import 'package:vlab1/settings_dialog.dart';
+
+import 'actions_view.dart';
 
 class ButtonsRow extends StatelessWidget {
   const ButtonsRow({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ActionsView actionsView = context.read(actionsViewProvider);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            actionsView.isPaused = false;
+          },
           child: Image.asset(
             "assets/play_icon.png",
             scale: 2.5,
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            actionsView.isPaused = true;
+          },
           child: Image.asset(
             "assets/pause_icon.png",
             scale: 2.5,
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            actionsView.initValues();
+          },
           child: Image.asset(
             "assets/reset_button.png",
             scale: 2.5,

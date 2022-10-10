@@ -16,6 +16,8 @@ class ActionsView {
   double? get massOne => double.tryParse(m1.text);
   double? get massTwo => double.tryParse(m2.text);
 
+  bool isPaused = false;
+
   void initValues() {
     xOne = 0;
     xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
