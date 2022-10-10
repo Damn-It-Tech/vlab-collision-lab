@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vlab1/settings_dialog.dart';
 
 class ButtonsRow extends StatelessWidget {
   const ButtonsRow({Key? key}) : super(key: key);
@@ -31,7 +32,13 @@ class ButtonsRow extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SettingsDialog();
+                });
+          },
           child: Image.asset(
             "assets/settings_button.png",
             scale: 2.5,

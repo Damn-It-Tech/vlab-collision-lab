@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:vlab1/actions_view.dart';
+import 'package:vlab1/app_config.dart';
+import 'package:vlab1/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActionBox extends StatefulWidget {
   const ActionBox({Key? key}) : super(key: key);
@@ -11,41 +15,38 @@ class ActionBox extends StatefulWidget {
 
 class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
-
-  int xOne = 0;
-  int xTwo = 750;
-
-  int v1 = 1;
-  int v2 = 1;
+  late ActionsView _actionsView;
 
   @override
   void initState() {
     super.initState();
+    _actionsView = context.read(actionsViewProvider);
+    _actionsView.initValues();
     timer = Timer.periodic(const Duration(milliseconds: 1), (Timer t) {
       setState(() {
         //checking edge case for sphere 1
-        if (xOne > 750) {
-          v1 = -v1;
+        if (_actionsView.xOne > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
+          _actionsView.reverseV1();
         }
-        if (xOne < 0) {
-          v1 = -v1;
+        if (_actionsView.xOne < 0) {
+          _actionsView.reverseV1();
         }
-        xOne += v1 * 1;
+        _actionsView.updateXOne();
 
         //checking edge case for sphere 2
-        if (xTwo > 750) {
-          v2 = -v2;
+        if (_actionsView.xTwo > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
+          _actionsView.reverseV2();
         }
-        if (xTwo < 0) {
-          v2 = -v2;
+        if (_actionsView.xTwo < 0) {
+          _actionsView.reverseV2();
         }
-        xTwo += v2 * 1;
+        _actionsView.updateXTwo();
 
         //checking if collision is happening
-        if ((xOne - xTwo).abs() < 51) {
+        if ((_actionsView.xOne - _actionsView.xTwo).abs() < AppConfigs.sizeOfBall) {
           //use equations and give v1 and v2 new values
-          v1 = -v1;
-          v2 = -v2;
+          _actionsView.reverseV1();
+          _actionsView.reverseV2();
         }
       });
     });
@@ -59,8 +60,8 @@ class _ActionBoxState extends State<ActionBox> {
 
   Widget getSphere(Color? sphereColor) {
     return Container(
-      height: 50,
-      width: 50,
+      height: AppConfigs.sizeOfBall,
+      width: AppConfigs.sizeOfBall,
       decoration: BoxDecoration(shape: BoxShape.circle, color: sphereColor),
     );
   }
@@ -70,21 +71,21 @@ class _ActionBoxState extends State<ActionBox> {
     return Stack(
       children: [
         Container(
-          height: 400,
-          width: 800,
+          height: AppConfigs.heightOfActionBox,
+          width: AppConfigs.widthOfActionBox,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             color: Colors.transparent,
           ),
         ),
         Positioned(
-          left: xOne.ceilToDouble(),
+          left: _actionsView.xOne,
           top: 0,
           bottom: 0,
           child: getSphere(Colors.red),
         ),
         Positioned(
-          left: xTwo.ceilToDouble(),
+          left: _actionsView.xTwo,
           top: 0,
           bottom: 0,
           child: getSphere(Colors.green),
