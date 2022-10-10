@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vlab1/action_box.dart';
-import 'package:vlab1/buttons_row.dart';
+import 'package:vlab1/buttons_column.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -16,14 +16,14 @@ class LandingPage extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Column(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              ButtonsRow(),
-              SizedBox(
-                height: 20,
-              ),
               ActionBox(),
+              SizedBox(
+                width: 20,
+              ),
+              ButtonsColumn(),
             ],
           ),
         ),

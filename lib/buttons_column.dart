@@ -5,14 +5,14 @@ import 'package:vlab1/settings_dialog.dart';
 
 import 'actions_view.dart';
 
-class ButtonsRow extends StatelessWidget {
-  const ButtonsRow({Key? key}) : super(key: key);
+class ButtonsColumn extends StatelessWidget {
+  const ButtonsColumn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ActionsView actionsView = context.read(actionsViewProvider);
 
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
