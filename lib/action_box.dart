@@ -44,6 +44,8 @@ class _ActionBoxState extends State<ActionBox> {
           }
           _actionsView.updateXTwo();
 
+          // _actionsView.applyAccelerationDueToCharge();
+
           //checking if collision is happening
           if ((_actionsView.xOne - _actionsView.xTwo).abs() < AppConfigs.sizeOfBall) {
             //use equations and give v1 and v2 new values

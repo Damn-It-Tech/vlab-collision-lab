@@ -45,12 +45,14 @@ class ButtonsColumn extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {
-            showDialog(
+          onPressed: () async {
+            actionsView.isPaused = true;
+            await showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return SettingsDialog();
+                  return const SettingsDialog();
                 });
+            actionsView.isPaused = false;
           },
           child: Image.asset(
             "assets/settings_button.png",

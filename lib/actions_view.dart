@@ -13,6 +13,14 @@ class ActionsView {
   late TextEditingController m1;
   late TextEditingController m2;
 
+  // late TextEditingController q1Controller;
+  // late TextEditingController q2Controller;
+
+  // double? get q1 => double.tryParse(q1Controller.text);
+  // double? get q2 => double.tryParse(q2Controller.text);
+
+  // final double chargeConstant = 10;
+
   double? get massOne => double.tryParse(m1.text);
   double? get massTwo => double.tryParse(m2.text);
 
@@ -25,7 +33,23 @@ class ActionsView {
     v2 = 1;
     m1 = TextEditingController(text: "0.5");
     m2 = TextEditingController(text: "1");
+    // q1Controller = TextEditingController(text: "1");
+    // q2Controller = TextEditingController(text: "1");
   }
+
+  // void applyAccelerationDueToCharge() {
+  //   if (v1 > 0) {
+  //     v1 = v1 - (chargeConstant * q1! * q2! * delT) / (massOne! * (xOne - xTwo) * (xOne - xTwo));
+  //   } else {
+  //     v1 = v1 + (chargeConstant * q1! * q2! * delT) / (massOne! * (xOne - xTwo) * (xOne - xTwo));
+  //   }
+
+  //   if (v2 > 0) {
+  //     v2 = v2 + (chargeConstant * q1! * q2! * delT) / (massTwo! * (xOne - xTwo) * (xOne - xTwo));
+  //   } else {
+  //     v2 = v2 - (chargeConstant * q1! * q2! * delT) / (massTwo! * (xOne - xTwo) * (xOne - xTwo));
+  //   }
+  // }
 
   void reverseV1() {
     v1 = -v1;
