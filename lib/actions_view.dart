@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:vlab1/app_config.dart';
 
@@ -5,21 +7,27 @@ class ActionsView {
   late double xOne;
   late double xTwo;
 
+  late double xOnePrev;
+  late double xTwoPrev;
+
   late double v1;
   late double v2;
+  late double rmin;
 
-  final int delT = 1;
+  late double v1prev;
+  late double v2prev;
+
+  final double delT = 1;
+  final double k = 2000;
 
   late TextEditingController m1;
   late TextEditingController m2;
 
-  // late TextEditingController q1Controller;
-  // late TextEditingController q2Controller;
+  late TextEditingController q1Controller;
+  late TextEditingController q2Controller;
 
-  // double? get q1 => double.tryParse(q1Controller.text);
-  // double? get q2 => double.tryParse(q2Controller.text);
-
-  // final double chargeConstant = 10;
+  double? get q1 => double.tryParse(q1Controller.text);
+  double? get q2 => double.tryParse(q2Controller.text);
 
   double? get massOne => double.tryParse(m1.text);
   double? get massTwo => double.tryParse(m2.text);
@@ -29,27 +37,65 @@ class ActionsView {
   void initValues() {
     xOne = 0;
     xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
-    v1 = 1;
-    v2 = 1;
-    m1 = TextEditingController(text: "0.5");
-    m2 = TextEditingController(text: "1");
-    // q1Controller = TextEditingController(text: "1");
-    // q2Controller = TextEditingController(text: "1");
+    xOnePrev = xOne;
+    xTwoPrev = xTwo;
+    v1 = 5; //figure out (choose atleast 5 values)
+    v1prev = v1;
+    v2 = -5; //figure out
+    v2prev = v2;
+    m1 = TextEditingController(text: "1"); //figure out (choose atleast 5 values)
+    m2 = TextEditingController(text: "1"); //figure out (choose atleast 5 values)
+    q1Controller = TextEditingController(text: "1");
+    q2Controller = TextEditingController(text: "1");
   }
 
-  // void applyAccelerationDueToCharge() {
-  //   if (v1 > 0) {
-  //     v1 = v1 - (chargeConstant * q1! * q2! * delT) / (massOne! * (xOne - xTwo) * (xOne - xTwo));
-  //   } else {
-  //     v1 = v1 + (chargeConstant * q1! * q2! * delT) / (massOne! * (xOne - xTwo) * (xOne - xTwo));
-  //   }
+  void calRMinimum() {
+    double temp1 = 2 * k * q1! * q2!;
+    double temp2 = massOne! * v1 * v1 + massTwo! * v2 * v2;
+    double d = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
+    rmin = temp1 * d / (temp1 + d * temp2);
 
-  //   if (v2 > 0) {
-  //     v2 = v2 + (chargeConstant * q1! * q2! * delT) / (massTwo! * (xOne - xTwo) * (xOne - xTwo));
-  //   } else {
-  //     v2 = v2 - (chargeConstant * q1! * q2! * delT) / (massTwo! * (xOne - xTwo) * (xOne - xTwo));
-  //   }
-  // }
+    print("rmin is $rmin");
+  }
+
+  void calculateVelocities() {
+    try {
+      double temp = 2 * k * q1! * q2!;
+      double xtemp1 = (xOnePrev - xOne) / ((xOne - xTwo) * (xOnePrev - xTwo));
+
+      double v1square = v1prev * v1prev + temp * xtemp1 / massOne!;
+      if (v1square < 0) {
+        v1square = -v1square;
+        v1 = -sqrt(v1square);
+        // throw ("v1square cannot be negative wtf");
+      } else {
+        if (xOne > xOnePrev) {
+          v1 = sqrt(v1square);
+        } else {
+          v1 = -sqrt(v1square);
+        }
+      }
+
+      double xtemp2 = (xTwo - xTwoPrev) / ((xTwo - xOne) * (xTwoPrev - xOne));
+      double v2square = v2prev * v2prev + temp * xtemp2 / massTwo!;
+
+      if (v2square < 0) {
+        // throw ("v2square cannot be negative wtf");
+        v2square = -v2square;
+        v2 = sqrt(v2square);
+      } else {
+        if (xTwo > xTwoPrev) {
+          v2 = sqrt(v2square);
+        } else {
+          v2 = -sqrt(v2square);
+        }
+      }
+
+      print("v1: $v1, v2: $v2");
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void reverseV1() {
     v1 = -v1;
@@ -65,6 +111,13 @@ class ActionsView {
 
   void updateXTwo() {
     xTwo += v2 * delT;
+  }
+
+  void updatePreviousValues() {
+    xOnePrev = xOne;
+    xTwoPrev = xTwo;
+    v1prev = v1;
+    v2prev = v2;
   }
 
   void updateVelocitiesAfterCollision() {

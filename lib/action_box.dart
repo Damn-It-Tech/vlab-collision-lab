@@ -22,10 +22,13 @@ class _ActionBoxState extends State<ActionBox> {
     super.initState();
     _actionsView = context.read(actionsViewProvider);
     _actionsView.initValues();
-    timer = Timer.periodic(const Duration(milliseconds: 1), (Timer t) {
+    _actionsView.calRMinimum();
+    timer = Timer.periodic(const Duration(milliseconds: 17), (Timer t) {
       if (_actionsView.isPaused) {
       } else {
         setState(() {
+          _actionsView.updatePreviousValues();
+
           //checking edge case for sphere 1
           if (_actionsView.xOne > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
             _actionsView.reverseV1();
@@ -35,7 +38,7 @@ class _ActionBoxState extends State<ActionBox> {
           }
           _actionsView.updateXOne();
 
-          //checking edge case for sphere 2
+          // checking edge case for sphere 2
           if (_actionsView.xTwo > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
             _actionsView.reverseV2();
           }
@@ -44,12 +47,12 @@ class _ActionBoxState extends State<ActionBox> {
           }
           _actionsView.updateXTwo();
 
-          // _actionsView.applyAccelerationDueToCharge();
-
-          //checking if collision is happening
+          // checking if collision is happening
           if ((_actionsView.xOne - _actionsView.xTwo).abs() < AppConfigs.sizeOfBall) {
             //use equations and give v1 and v2 new values
             _actionsView.updateVelocitiesAfterCollision();
+          } else {
+            _actionsView.calculateVelocities();
           }
         });
       }
