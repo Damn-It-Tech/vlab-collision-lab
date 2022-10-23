@@ -32,11 +32,17 @@ class ActionsView {
   double? get massOne => double.tryParse(m1.text);
   double? get massTwo => double.tryParse(m2.text);
 
+  List<ChartData>? chartData;
+
   bool isPaused = false;
+
+  bool turnGraphOn = true;
 
   void initValues() {
     xOne = 0;
     xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
+    chartData = <ChartData>[];
+
     xOnePrev = xOne;
     xTwoPrev = xTwo;
     v1 = 3; //figure out (choose atleast 5 values)
@@ -47,6 +53,20 @@ class ActionsView {
     m2 = TextEditingController(text: "5"); //figure out (choose atleast 5 values)
     q1Controller = TextEditingController(text: "1");
     q2Controller = TextEditingController(text: "1");
+  }
+
+  void dispose() {
+    chartData!.clear();
+  }
+
+  void getChartData(double time) {
+    if (chartData!.length > 1000) {
+      chartData = <ChartData>[];
+    }
+
+    double pe = 2000 / (xTwo - xOne);
+
+    chartData!.add(ChartData(time, pe));
   }
 
   void calRMinimum() {
@@ -160,4 +180,10 @@ class ActionsView {
 
     print("vel: u1:$u1, u2:$u2, v1:$v1, v2:$v2");
   }
+}
+
+class ChartData {
+  ChartData(this.time, this.pe);
+  final double time;
+  final double pe;
 }

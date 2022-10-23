@@ -20,20 +20,21 @@ class ActionBox extends StatefulWidget {
 class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
   late ActionsView _actionsView;
-  List<_ChartData>? _chartData;
+  late double time;
 
   @override
   void initState() {
     super.initState();
     _actionsView = context.read(actionsViewProvider);
-    _chartData = <_ChartData>[];
     _actionsView.initValues();
     _actionsView.calRMinimum();
+    time = 0;
     timer = Timer.periodic(const Duration(milliseconds: 17), (Timer t) {
       if (_actionsView.isPaused) {
       } else {
+        time += 1;
         setState(() {
-          _getChartData(t.tick);
+          _actionsView.getChartData(time);
 
           _actionsView.updatePreviousValues();
 
@@ -70,7 +71,7 @@ class _ActionBoxState extends State<ActionBox> {
   @override
   void dispose() {
     timer?.cancel();
-    _chartData!.clear();
+    _actionsView.dispose();
     super.dispose();
   }
 
@@ -85,6 +86,7 @@ class _ActionBoxState extends State<ActionBox> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Stack(
           children: [
@@ -110,7 +112,21 @@ class _ActionBoxState extends State<ActionBox> {
             )
           ],
         ),
-        SizedBox(width: AppConfigs.widthOfActionBox, child: _buildAnimationSplineChart())
+        if (_actionsView.turnGraphOn) SizedBox(width: AppConfigs.widthOfActionBox, child: _buildAnimationSplineChart()),
+        const SizedBox(
+          height: 20,
+        ),
+        TextButton(
+          onPressed: () {
+            _actionsView.turnGraphOn = !_actionsView.turnGraphOn;
+          },
+          child: Text(
+            _actionsView.turnGraphOn ? "Turn Off Graph" : "Turn On Graph ",
+            style: GoogleFonts.poppins(
+              fontSize: 15,
+            ),
+          ),
+        )
       ],
     );
   }
@@ -145,35 +161,14 @@ class _ActionBoxState extends State<ActionBox> {
   }
 
   /// get the spline series sample with dynamically updated data points.
-  List<SplineSeries<_ChartData, num>> _getDefaultSplineSeries() {
-    return <SplineSeries<_ChartData, num>>[
-      SplineSeries<_ChartData, num>(
-          dataSource: _chartData!,
+  List<SplineSeries<ChartData, num>> _getDefaultSplineSeries() {
+    return <SplineSeries<ChartData, num>>[
+      SplineSeries<ChartData, num>(
+          dataSource: _actionsView.chartData!,
           animationDuration: 0,
-          xValueMapper: (_ChartData sales, _) => sales.time,
-          yValueMapper: (_ChartData sales, _) => sales.pe,
+          xValueMapper: (ChartData sales, _) => sales.time,
+          yValueMapper: (ChartData sales, _) => sales.pe,
           markerSettings: const MarkerSettings(isVisible: false))
     ];
   }
-
-  //Get the random data points
-  void _getChartData(int tick) {
-    // _chartData = <_ChartData>[];
-
-    if (_chartData!.length > 1000) {
-      _chartData = <_ChartData>[];
-    }
-
-    double time = tick / 60;
-
-    double pe = 2000 / (_actionsView.xTwo - _actionsView.xOne);
-
-    _chartData!.add(_ChartData(time, pe));
-  }
-}
-
-class _ChartData {
-  _ChartData(this.time, this.pe);
-  final double time;
-  final double pe;
 }

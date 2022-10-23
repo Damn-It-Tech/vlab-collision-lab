@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vlab1/action_box.dart';
 import 'package:vlab1/buttons_column.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'chart_box.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -19,23 +16,14 @@ class LandingPage extends StatelessWidget {
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 30),
-                    child: const ActionBox(),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  const ButtonsColumn(),
-                ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              ActionBox(),
+              SizedBox(
+                width: 20,
               ),
-              // const AnimationSplineDefault()
+              ButtonsColumn(),
             ],
           ),
         ),
