@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:vlab1/app_config.dart';
 
 class ActionsView {
@@ -14,29 +11,23 @@ class ActionsView {
   late double v2;
   late double rmin;
 
-  late double v1prev;
-  late double v2prev;
+  // late double v1prev;
+  // late double v2prev;
 
   final double delT = 1;
   final double k = 2000;
 
-  late TextEditingController m1;
-  late TextEditingController m2;
-
-  late TextEditingController q1Controller;
-  late TextEditingController q2Controller;
-
-  double? get q1 => double.tryParse(q1Controller.text);
-  double? get q2 => double.tryParse(q2Controller.text);
-
-  double? get massOne => double.tryParse(m1.text);
-  double? get massTwo => double.tryParse(m2.text);
+  late double q1;
+  late double q2;
 
   List<ChartData>? chartData;
 
   bool isPaused = false;
 
-  bool turnGraphOn = true;
+  bool turnGraphOn = false;
+
+  late double massOne;
+  late double massTwo;
 
   void initValues() {
     xOne = 0;
@@ -45,14 +36,20 @@ class ActionsView {
 
     xOnePrev = xOne;
     xTwoPrev = xTwo;
-    v1 = 3; //figure out (choose atleast 5 values)
-    v1prev = v1;
-    v2 = -3; //figure out
-    v2prev = v2;
-    m1 = TextEditingController(text: "5"); //figure out (choose atleast 5 values)
-    m2 = TextEditingController(text: "5"); //figure out (choose atleast 5 values)
-    q1Controller = TextEditingController(text: "1");
-    q2Controller = TextEditingController(text: "1");
+
+    // v1prev = v1;
+    // v2prev = v2;
+
+    v1 = 4;
+    v2 = -4;
+
+    massOne = 5;
+    massTwo = 5;
+
+    q1 = 1;
+    q2 = 1;
+
+    calRMinimum();
   }
 
   void dispose() {
@@ -70,8 +67,8 @@ class ActionsView {
   }
 
   void calRMinimum() {
-    double temp1 = 2 * k * q1! * q2!;
-    double temp2 = massOne! * v1 * v1 + massTwo! * v2 * v2;
+    double temp1 = 2 * k * q1 * q2;
+    double temp2 = massOne * v1 * v1 + massTwo * v2 * v2;
     double d = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
     rmin = temp1 * d / (temp1 + d * temp2);
 
@@ -130,8 +127,8 @@ class ActionsView {
   }
 
   void updateVel() {
-    double a1 = -k * q1! * q2! / ((xTwo - xOne) * (xTwo - xOne) * massOne!);
-    double a2 = k * q1! * q2! / ((xTwo - xOne) * (xTwo - xOne) * massTwo!);
+    double a1 = -k * q1 * q2 / ((xTwo - xOne) * (xTwo - xOne) * massOne);
+    double a2 = k * q1 * q2 / ((xTwo - xOne) * (xTwo - xOne) * massTwo);
 
     v1 += a1 * delT;
     // if ((xOne - xOnePrev).abs() < 1) {
@@ -162,15 +159,15 @@ class ActionsView {
   void updatePreviousValues() {
     xOnePrev = xOne;
     xTwoPrev = xTwo;
-    v1prev = v1;
-    v2prev = v2;
+    // v1prev = v1;
+    // v2prev = v2;
   }
 
   void updateVelocitiesAfterCollision() {
     double u1 = v1;
     double u2 = v2;
-    v1 = ((massOne! - massTwo!) / (massOne! + massTwo!)) * u1 + 2 * (massTwo! * u2) / (massOne! + massTwo!);
-    v2 = ((massTwo! - massOne!) / (massOne! + massTwo!)) * u2 + 2 * (massOne! * u1) / (massOne! + massTwo!);
+    v1 = ((massOne - massTwo) / (massOne + massTwo)) * u1 + 2 * (massTwo * u2) / (massOne + massTwo);
+    v2 = ((massTwo - massOne) / (massOne + massTwo)) * u2 + 2 * (massOne * u1) / (massOne + massTwo);
     double temp1 = xOnePrev;
     double temp2 = xTwoPrev;
     xOnePrev = xOne;

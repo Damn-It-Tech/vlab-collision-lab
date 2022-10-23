@@ -46,6 +46,7 @@ class ButtonsColumn extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
+            actionsView.initValues();
             actionsView.isPaused = true;
             await showDialog(
                 context: context,

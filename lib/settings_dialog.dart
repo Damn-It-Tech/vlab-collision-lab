@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vlab1/actions_view.dart';
 
 import 'providers.dart';
 
-class SettingsDialog extends StatelessWidget {
+class SettingsDialog extends StatefulWidget {
   const SettingsDialog({Key? key}) : super(key: key);
 
+  @override
+  State<SettingsDialog> createState() => _SettingsDialogState();
+}
+
+class _SettingsDialogState extends State<SettingsDialog> {
   @override
   Widget build(BuildContext context) {
     ActionsView actionsView = context.read(actionsViewProvider);
@@ -57,19 +61,19 @@ class SettingsDialog extends StatelessWidget {
                             "M1",
                             style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                           ),
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter mass of first object',
-                              ),
-                              controller: actionsView.m1,
-                              maxLines: 1,
-                              maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            ),
-                          ),
+                          Slider(
+                            min: 1,
+                            max: 10.0,
+                            value: actionsView.massOne,
+                            divisions: 9,
+                            label: '${actionsView.massOne}',
+                            onChanged: (value) {
+                              setState(() {
+                                actionsView.massOne = value;
+                                actionsView.calRMinimum();
+                              });
+                            },
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -83,78 +87,82 @@ class SettingsDialog extends StatelessWidget {
                             "M2",
                             style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
                           ),
-                          SizedBox(
-                            width: 200,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Enter mass of second object',
-                              ),
-                              controller: actionsView.m2,
-                              maxLines: 1,
-                              maxLength: 3,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            ),
-                          ),
+                          Slider(
+                            min: 1,
+                            max: 10.0,
+                            value: actionsView.massTwo,
+                            divisions: 9,
+                            label: '${actionsView.massTwo}',
+                            onChanged: (value) {
+                              setState(() {
+                                actionsView.massTwo = value;
+                                actionsView.calRMinimum();
+                              });
+                            },
+                          )
                         ],
                       ),
                     ],
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   mainAxisSize: MainAxisSize.min,
-                  //   children: [
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         Text(
-                  //           "Z1",
-                  //           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 200,
-                  //           child: TextField(
-                  //             decoration: const InputDecoration(
-                  //               border: OutlineInputBorder(),
-                  //               hintText: 'Enter charge of first object',
-                  //             ),
-                  //             controller: m1,
-                  //             maxLines: 1,
-                  //             maxLength: 3,
-                  //             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 50,
-                  //     ),
-                  //     Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "Z2",
-                  //           style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                  //         ),
-                  //         SizedBox(
-                  //           width: 200,
-                  //           child: TextField(
-                  //             decoration: const InputDecoration(
-                  //               border: OutlineInputBorder(),
-                  //               hintText: 'Enter charge of second object',
-                  //             ),
-                  //             controller: m1,
-                  //             maxLines: 1,
-                  //             maxLength: 3,
-                  //             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "V1",
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          ),
+                          Slider(
+                            min: -5.0,
+                            max: 5.0,
+                            value: actionsView.v1,
+                            divisions: 10,
+                            label: '${actionsView.v1}',
+                            onChanged: (value) {
+                              setState(() {
+                                actionsView.v1 = value;
+                                actionsView.calRMinimum();
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "V2",
+                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                          ),
+                          Slider(
+                            min: -5.0,
+                            max: 5.0,
+                            value: actionsView.v2,
+                            divisions: 10,
+                            label: '${actionsView.v2}',
+                            onChanged: (value) {
+                              setState(() {
+                                actionsView.v2 = value;
+                                actionsView.calRMinimum();
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text("Will Collide? : ${actionsView.rmin < 30 ? true : false}")
                 ],
               ),
             ],
