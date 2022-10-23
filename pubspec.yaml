@@ -37,6 +37,7 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_riverpod: ^0.14.0+1
   url_strategy: ^0.2.0
+  syncfusion_flutter_charts: ^20.3.50
 
 dev_dependencies:
   flutter_test:
