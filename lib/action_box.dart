@@ -21,14 +21,22 @@ class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
   late ActionsView _actionsView;
   late double time;
-  ChartSeriesController? _chartSeriesController;
+  ChartSeriesController? _chartPESeriesController;
+  ChartSeriesController? _chartKESeriesController;
 
   void _updateDataSource() {
-    _actionsView.getChartData(time);
+    _actionsView.getPEChartData(time);
+    _actionsView.getKEChartData(time);
 
-    if (_actionsView.chartData!.isNotEmpty) {
-      _chartSeriesController?.updateDataSource(
-        addedDataIndex: _actionsView.chartData!.length - 1,
+    if (_actionsView.chartPEData!.isNotEmpty) {
+      _chartPESeriesController?.updateDataSource(
+        addedDataIndex: _actionsView.chartPEData!.length - 1,
+      );
+    }
+
+    if (_actionsView.chartKEData!.isNotEmpty) {
+      _chartKESeriesController?.updateDataSource(
+        addedDataIndex: _actionsView.chartKEData!.length - 1,
       );
     }
   }
@@ -83,7 +91,9 @@ class _ActionBoxState extends State<ActionBox> {
   @override
   void dispose() {
     timer?.cancel();
-    _chartSeriesController = null;
+    _chartPESeriesController = null;
+    _chartKESeriesController = null;
+
     _actionsView.dispose();
     super.dispose();
   }
@@ -153,6 +163,11 @@ class _ActionBoxState extends State<ActionBox> {
   SfCartesianChart _buildAnimationSplineChart() {
     return SfCartesianChart(
         plotAreaBorderWidth: 0,
+        legend: Legend(
+            isVisible: true,
+            // Border color and border width of legend
+            borderColor: Colors.black,
+            borderWidth: 2),
         primaryXAxis: NumericAxis(
             majorGridLines: const MajorGridLines(width: 0),
             labelStyle: const TextStyle(
@@ -171,7 +186,7 @@ class _ActionBoxState extends State<ActionBox> {
             color: Colors.transparent,
           ),
           title: AxisTitle(
-            text: 'Potential Energy',
+            text: 'Energy',
             textStyle: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
           ),
         ),
@@ -182,13 +197,24 @@ class _ActionBoxState extends State<ActionBox> {
   List<SplineSeries<ChartData, num>> _getDefaultSplineSeries() {
     return <SplineSeries<ChartData, num>>[
       SplineSeries<ChartData, num>(
-          dataSource: _actionsView.chartData!,
+          dataSource: _actionsView.chartPEData!,
+          name: "Potential Energy",
           onRendererCreated: (ChartSeriesController controller) {
-            _chartSeriesController = controller;
+            _chartPESeriesController = controller;
           },
           animationDuration: 0,
           xValueMapper: (ChartData sales, _) => sales.time,
-          yValueMapper: (ChartData sales, _) => sales.pe,
+          yValueMapper: (ChartData sales, _) => sales.energy,
+          markerSettings: const MarkerSettings(isVisible: false)),
+      SplineSeries<ChartData, num>(
+          dataSource: _actionsView.chartKEData!,
+          name: "Kinetic Energy",
+          onRendererCreated: (ChartSeriesController controller) {
+            _chartKESeriesController = controller;
+          },
+          animationDuration: 0,
+          xValueMapper: (ChartData sales, _) => sales.time,
+          yValueMapper: (ChartData sales, _) => sales.energy,
           markerSettings: const MarkerSettings(isVisible: false))
     ];
   }

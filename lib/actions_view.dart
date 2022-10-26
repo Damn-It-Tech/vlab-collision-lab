@@ -20,7 +20,8 @@ class ActionsView {
   late double q1;
   late double q2;
 
-  List<ChartData>? chartData;
+  List<ChartData>? chartPEData;
+  List<ChartData>? chartKEData;
 
   bool isPaused = false;
 
@@ -32,7 +33,8 @@ class ActionsView {
   void initValues() {
     xOne = 0;
     xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
-    chartData = <ChartData>[];
+    chartPEData = <ChartData>[];
+    chartKEData = <ChartData>[];
 
     xOnePrev = xOne;
     xTwoPrev = xTwo;
@@ -40,8 +42,8 @@ class ActionsView {
     // v1prev = v1;
     // v2prev = v2;
 
-    v1 = 4;
-    v2 = -4;
+    v1 = 3;
+    v2 = -3;
 
     massOne = 5;
     massTwo = 5;
@@ -53,17 +55,28 @@ class ActionsView {
   }
 
   void dispose() {
-    chartData!.clear();
+    chartPEData!.clear();
+    chartKEData!.clear();
   }
 
-  void getChartData(double time) {
-    if (chartData!.length > 1000) {
-      chartData = <ChartData>[];
+  void getPEChartData(double time) {
+    if (chartPEData!.length > 1000) {
+      chartPEData = <ChartData>[];
     }
 
     double pe = 2000 / (xTwo - xOne);
 
-    chartData!.add(ChartData(time, pe));
+    chartPEData!.add(ChartData(time, pe));
+  }
+
+  void getKEChartData(double time) {
+    if (chartKEData!.length > 1000) {
+      chartKEData = <ChartData>[];
+    }
+
+    double ke = 0.5 * massOne * v1 * v1 + 0.5 * massTwo * v2 * v2;
+
+    chartKEData!.add(ChartData(time, ke));
   }
 
   void calRMinimum() {
@@ -180,7 +193,7 @@ class ActionsView {
 }
 
 class ChartData {
-  ChartData(this.time, this.pe);
+  ChartData(this.time, this.energy);
   final double time;
-  final double pe;
+  final double energy;
 }
