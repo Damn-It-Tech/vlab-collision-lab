@@ -21,18 +21,18 @@ class _ActionBoxState extends State<ActionBox> {
   Timer? timer;
   late ActionsView _actionsView;
   late double time;
-  ChartSeriesController? _chartPESeriesController;
+  // ChartSeriesController? _chartPESeriesController;
   ChartSeriesController? _chartKESeriesController;
 
   void _updateDataSource() {
-    _actionsView.getPEChartData(time);
+    // _actionsView.getPEChartData(time);
     _actionsView.getKEChartData(time);
 
-    if (_actionsView.chartPEData!.isNotEmpty) {
-      _chartPESeriesController?.updateDataSource(
-        addedDataIndex: _actionsView.chartPEData!.length - 1,
-      );
-    }
+    // if (_actionsView.chartPEData!.isNotEmpty) {
+    //   _chartPESeriesController?.updateDataSource(
+    //     addedDataIndex: _actionsView.chartPEData!.length - 1,
+    //   );
+    // }
 
     if (_actionsView.chartKEData!.isNotEmpty) {
       _chartKESeriesController?.updateDataSource(
@@ -91,7 +91,7 @@ class _ActionBoxState extends State<ActionBox> {
   @override
   void dispose() {
     timer?.cancel();
-    _chartPESeriesController = null;
+    // _chartPESeriesController = null;
     _chartKESeriesController = null;
 
     _actionsView.dispose();
@@ -140,7 +140,11 @@ class _ActionBoxState extends State<ActionBox> {
             )
           ],
         ),
-        if (_actionsView.turnGraphOn) SizedBox(width: AppConfigs.widthOfActionBox, child: _buildAnimationSplineChart()),
+        if (_actionsView.turnGraphOn)
+          Container(
+              margin: const EdgeInsets.only(left: 80),
+              width: AppConfigs.widthOfActionBox + 220,
+              child: _buildAnimationSplineChart()),
         const SizedBox(
           height: 20,
         ),
@@ -170,23 +174,25 @@ class _ActionBoxState extends State<ActionBox> {
             borderWidth: 2),
         primaryXAxis: NumericAxis(
             majorGridLines: const MajorGridLines(width: 0),
+            maximum: AppConfigs.widthOfActionBox,
+            minimum: 0,
             labelStyle: const TextStyle(
               color: Colors.transparent,
             ),
             title: AxisTitle(
-              text: 'Time',
+              text: 'Position',
               textStyle: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
             )),
         primaryYAxis: NumericAxis(
           majorTickLines: const MajorTickLines(color: Colors.transparent),
           axisLine: const AxisLine(width: 0),
-          minimum: 0,
-          maximum: 100,
+          minimum: -700,
+          maximum: 0,
           labelStyle: const TextStyle(
             color: Colors.transparent,
           ),
           title: AxisTitle(
-            text: 'Energy',
+            text: '- KE Energy',
             textStyle: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
           ),
         ),
@@ -196,16 +202,16 @@ class _ActionBoxState extends State<ActionBox> {
   /// get the spline series sample with dynamically updated data points.
   List<SplineSeries<ChartData, num>> _getDefaultSplineSeries() {
     return <SplineSeries<ChartData, num>>[
-      SplineSeries<ChartData, num>(
-          dataSource: _actionsView.chartPEData!,
-          name: "Potential Energy",
-          onRendererCreated: (ChartSeriesController controller) {
-            _chartPESeriesController = controller;
-          },
-          animationDuration: 0,
-          xValueMapper: (ChartData sales, _) => sales.time,
-          yValueMapper: (ChartData sales, _) => sales.energy,
-          markerSettings: const MarkerSettings(isVisible: false)),
+      // SplineSeries<ChartData, num>(
+      //     dataSource: _actionsView.chartPEData!,
+      //     name: "Potential Energy",
+      //     onRendererCreated: (ChartSeriesController controller) {
+      //       _chartPESeriesController = controller;
+      //     },
+      //     animationDuration: 0,
+      //     xValueMapper: (ChartData sales, _) => sales.time,
+      //     yValueMapper: (ChartData sales, _) => sales.energy,
+      //     markerSettings: const MarkerSettings(isVisible: false)),
       SplineSeries<ChartData, num>(
           dataSource: _actionsView.chartKEData!,
           name: "Kinetic Energy",

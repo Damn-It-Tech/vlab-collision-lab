@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vlab1/actions_view.dart';
+import 'package:vlab1/app_config.dart';
 
 import 'providers.dart';
 
@@ -104,61 +105,62 @@ class _SettingsDialogState extends State<SettingsDialog> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "V1",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          ),
-                          Slider(
-                            min: -5.0,
-                            max: 5.0,
-                            value: actionsView.v1,
-                            divisions: 10,
-                            label: '${actionsView.v1}',
-                            onChanged: (value) {
-                              setState(() {
-                                actionsView.v1 = value;
-                                actionsView.calRMinimum();
-                              });
-                            },
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 50,
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "V2",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
-                          ),
-                          Slider(
-                            min: -5.0,
-                            max: 5.0,
-                            value: actionsView.v2,
-                            divisions: 10,
-                            label: '${actionsView.v2}',
-                            onChanged: (value) {
-                              setState(() {
-                                actionsView.v2 = value;
-                                actionsView.calRMinimum();
-                              });
-                            },
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                  if (AppConfigs.allowVelocityEdit)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "V1",
+                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            ),
+                            Slider(
+                              min: -5.0,
+                              max: 5.0,
+                              value: actionsView.v1,
+                              divisions: 10,
+                              label: '${actionsView.v1}',
+                              onChanged: (value) {
+                                setState(() {
+                                  actionsView.v1 = value;
+                                  actionsView.calRMinimum();
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 50,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "V2",
+                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            ),
+                            Slider(
+                              min: -5.0,
+                              max: 5.0,
+                              value: actionsView.v2,
+                              divisions: 10,
+                              label: '${actionsView.v2}',
+                              onChanged: (value) {
+                                setState(() {
+                                  actionsView.v2 = value;
+                                  actionsView.calRMinimum();
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   const SizedBox(
                     height: 30,
                   ),

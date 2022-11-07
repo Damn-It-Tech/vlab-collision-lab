@@ -20,7 +20,7 @@ class ActionsView {
   late double q1;
   late double q2;
 
-  List<ChartData>? chartPEData;
+  // List<ChartData>? chartPEData;
   List<ChartData>? chartKEData;
 
   bool isPaused = false;
@@ -33,7 +33,7 @@ class ActionsView {
   void initValues() {
     xOne = 0;
     xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
-    chartPEData = <ChartData>[];
+    // chartPEData = <ChartData>[];
     chartKEData = <ChartData>[];
 
     xOnePrev = xOne;
@@ -55,28 +55,28 @@ class ActionsView {
   }
 
   void dispose() {
-    chartPEData!.clear();
+    // chartPEData!.clear();
     chartKEData!.clear();
   }
 
-  void getPEChartData(double time) {
-    if (chartPEData!.length > 1000) {
-      chartPEData = <ChartData>[];
-    }
+  // void getPEChartData(double time) {
+  //   if (chartPEData!.length > 1000) {
+  //     chartPEData = <ChartData>[];
+  //   }
 
-    double pe = 2000 / (xTwo - xOne);
+  //   double pe = 2000 / (xTwo - xOne);
 
-    chartPEData!.add(ChartData(time, pe));
-  }
+  //   chartPEData!.add(ChartData(time, pe));
+  // }
 
   void getKEChartData(double time) {
     if (chartKEData!.length > 1000) {
       chartKEData = <ChartData>[];
     }
 
-    double ke = 0.5 * massOne * v1 * v1 + 0.5 * massTwo * v2 * v2;
+    double ke = -0.5 * massOne * v1 * v1;
 
-    chartKEData!.add(ChartData(time, ke));
+    chartKEData!.add(ChartData(xOne, 10 * ke));
   }
 
   void calRMinimum() {
@@ -129,6 +129,7 @@ class ActionsView {
 
   void reverseV1() {
     v1 = -v1;
+    chartKEData = <ChartData>[];
   }
 
   void reverseV2() {
@@ -140,6 +141,7 @@ class ActionsView {
   }
 
   void updateVel() {
+    double u1 = v1;
     double a1 = -k * q1 * q2 / ((xTwo - xOne) * (xTwo - xOne) * massOne);
     double a2 = k * q1 * q2 / ((xTwo - xOne) * (xTwo - xOne) * massTwo);
 
@@ -152,6 +154,10 @@ class ActionsView {
     // } else {
     //   v1 -= a1 * delT;
     // }
+
+    if (v1.isNegative != u1.isNegative) {
+      chartKEData = <ChartData>[];
+    }
 
     v2 += a2 * delT;
 
@@ -187,6 +193,7 @@ class ActionsView {
     xTwoPrev = xTwo;
     xOne = temp1;
     xTwo = temp2;
+    chartKEData = <ChartData>[];
 
     print("vel: u1:$u1, u2:$u2, v1:$v1, v2:$v2");
   }
