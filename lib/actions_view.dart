@@ -32,7 +32,7 @@ class ActionsView {
 
   void initValues() {
     xOne = 0;
-    xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall;
+    xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall - 300;
     // chartPEData = <ChartData>[];
     chartKEData = <ChartData>[];
 
@@ -43,7 +43,7 @@ class ActionsView {
     // v2prev = v2;
 
     v1 = 3;
-    v2 = -3;
+    v2 = 0;
 
     massOne = 5;
     massTwo = 5;
@@ -70,13 +70,15 @@ class ActionsView {
   // }
 
   void getKEChartData(double time) {
-    if (chartKEData!.length > 1000) {
+    if (chartKEData!.length > 800) {
       chartKEData = <ChartData>[];
     }
 
     double ke = -0.5 * massOne * v1 * v1;
 
-    chartKEData!.add(ChartData(xOne, 10 * ke));
+    double multiplier = massOne > 500 ? 0.25 : 5;
+
+    chartKEData!.add(ChartData(xOne, multiplier * ke));
   }
 
   void calRMinimum() {
@@ -129,7 +131,7 @@ class ActionsView {
 
   void reverseV1() {
     v1 = -v1;
-    chartKEData = <ChartData>[];
+    // chartKEData = <ChartData>[];
   }
 
   void reverseV2() {
@@ -156,7 +158,7 @@ class ActionsView {
     // }
 
     if (v1.isNegative != u1.isNegative) {
-      chartKEData = <ChartData>[];
+      // chartKEData = <ChartData>[];
     }
 
     v2 += a2 * delT;
@@ -193,7 +195,7 @@ class ActionsView {
     xTwoPrev = xTwo;
     xOne = temp1;
     xTwo = temp2;
-    chartKEData = <ChartData>[];
+    // chartKEData = <ChartData>[];
 
     print("vel: u1:$u1, u2:$u2, v1:$v1, v2:$v2");
   }

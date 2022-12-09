@@ -186,10 +186,10 @@ class _ActionBoxState extends State<ActionBox> {
         primaryYAxis: NumericAxis(
           majorTickLines: const MajorTickLines(color: Colors.transparent),
           axisLine: const AxisLine(width: 0),
-          minimum: -700,
+          minimum: -50,
           maximum: 0,
           labelStyle: const TextStyle(
-            color: Colors.transparent,
+            color: Colors.black,
           ),
           title: AxisTitle(
             text: '- KE Energy',

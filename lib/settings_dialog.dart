@@ -90,7 +90,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                           ),
                           Slider(
                             min: 1,
-                            max: 10.0,
+                            max: 4000.0,
                             value: actionsView.massTwo,
                             divisions: 9,
                             label: '${actionsView.massTwo}',
