@@ -23,6 +23,7 @@ class _ActionBoxState extends State<ActionBox> {
   late double time;
   // ChartSeriesController? _chartPESeriesController;
   ChartSeriesController? _chartKESeriesController;
+  late double graphscale;
 
   void _updateDataSource() {
     // _actionsView.getPEChartData(time);
@@ -45,7 +46,8 @@ class _ActionBoxState extends State<ActionBox> {
   void initState() {
     super.initState();
     _actionsView = context.read(actionsViewProvider);
-    _actionsView.initValues();
+    _actionsView.initValues(5, 5, 3, 3);
+    graphscale = -200;
     // _actionsView.calRMinimum();
     time = 0;
     timer = Timer.periodic(const Duration(milliseconds: 17), (Timer t) {
@@ -59,7 +61,8 @@ class _ActionBoxState extends State<ActionBox> {
           _actionsView.updatePreviousValues();
 
           //checking edge case for sphere 1
-          if (_actionsView.xOne > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
+          if (_actionsView.xOne >
+              AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
             _actionsView.reverseV1();
           }
           if (_actionsView.xOne < 0) {
@@ -68,7 +71,8 @@ class _ActionBoxState extends State<ActionBox> {
           _actionsView.updateXOne();
 
           // checking edge case for sphere 2
-          if (_actionsView.xTwo > AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
+          if (_actionsView.xTwo >
+              AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall) {
             _actionsView.reverseV2();
           }
           if (_actionsView.xTwo < 0) {
@@ -77,7 +81,8 @@ class _ActionBoxState extends State<ActionBox> {
           _actionsView.updateXTwo();
 
           // checking if collision is happening
-          if ((_actionsView.xOne - _actionsView.xTwo).abs() < AppConfigs.sizeOfBall) {
+          if ((_actionsView.xOne - _actionsView.xTwo).abs() <
+              AppConfigs.sizeOfBall) {
             //use equations and give v1 and v2 new values
             _actionsView.updateVelocitiesAfterCollision();
           }
@@ -111,6 +116,64 @@ class _ActionBoxState extends State<ActionBox> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _actionsView.initValues(1, 1000, 3, 0);
+                  graphscale = -50;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(30)),
+                width: 30,
+                height: 30,
+                child: const Center(
+                    child: Text("1", style: TextStyle(fontSize: 15))),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _actionsView.initValues(5, 5, 3, 0);
+                  graphscale = -150;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(30)),
+                width: 30,
+                height: 30,
+                child: const Center(
+                    child: Text("2", style: TextStyle(fontSize: 15))),
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _actionsView.initValues(100, 1, 3, 0);
+                  graphscale = -3200;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(30)),
+                width: 30,
+                height: 30,
+                child: const Center(
+                    child: Text("3", style: TextStyle(fontSize: 15))),
+              ),
+            )
+          ],
+        ),
         Container(
           padding: const EdgeInsets.all(15),
           child: Text(
@@ -186,7 +249,7 @@ class _ActionBoxState extends State<ActionBox> {
         primaryYAxis: NumericAxis(
           majorTickLines: const MajorTickLines(color: Colors.transparent),
           axisLine: const AxisLine(width: 0),
-          minimum: -50,
+          minimum: graphscale,
           maximum: 0,
           labelStyle: const TextStyle(
             color: Colors.black,

@@ -18,7 +18,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
   Widget build(BuildContext context) {
     ActionsView actionsView = context.read(actionsViewProvider);
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)), //this right here
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)), //this right here
       child: SizedBox(
         height: 400,
         width: 500,
@@ -45,7 +46,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                 children: [
                   Text(
                     "Settings",
-                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 30),
+                    style:
+                        GoogleFonts.poppins(color: Colors.black, fontSize: 30),
                   ),
                   const SizedBox(
                     height: 30,
@@ -60,11 +62,12 @@ class _SettingsDialogState extends State<SettingsDialog> {
                         children: [
                           Text(
                             "M1",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           Slider(
                             min: 1,
-                            max: 10.0,
+                            max: 1000.0,
                             value: actionsView.massOne,
                             divisions: 9,
                             label: '${actionsView.massOne}',
@@ -86,7 +89,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                         children: [
                           Text(
                             "M2",
-                            style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 16),
                           ),
                           Slider(
                             min: 1,
@@ -116,7 +120,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                           children: [
                             Text(
                               "V1",
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             Slider(
                               min: -5.0,
@@ -142,7 +147,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                           children: [
                             Text(
                               "V2",
-                              style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black, fontSize: 16),
                             ),
                             Slider(
                               min: -5.0,
@@ -164,7 +170,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Text("Will Collide? : ${actionsView.rmin < 30 ? true : false}")
+                  Text(
+                      "Will Collide? : ${actionsView.rmin < 30 ? true : false}")
                 ],
               ),
             ],

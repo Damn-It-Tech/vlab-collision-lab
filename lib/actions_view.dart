@@ -30,9 +30,12 @@ class ActionsView {
   late double massOne;
   late double massTwo;
 
-  void initValues() {
-    xOne = 0;
-    xTwo = AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall - 300;
+  void initValues(double a, double b, double c, double d,
+      {double initiala = 0,
+      double initialy =
+          AppConfigs.widthOfActionBox - AppConfigs.sizeOfBall - 300}) {
+    xOne = initiala;
+    xTwo = initialy;
     // chartPEData = <ChartData>[];
     chartKEData = <ChartData>[];
 
@@ -42,11 +45,11 @@ class ActionsView {
     // v1prev = v1;
     // v2prev = v2;
 
-    v1 = 3;
-    v2 = 0;
+    v1 = c;
+    v2 = d;
 
-    massOne = 5;
-    massTwo = 5;
+    massOne = a;
+    massTwo = b;
 
     q1 = 1;
     q2 = 1;
@@ -76,7 +79,7 @@ class ActionsView {
 
     double ke = -0.5 * massOne * v1 * v1;
 
-    double multiplier = massOne > 500 ? 0.25 : 5;
+    double multiplier = 5;
 
     chartKEData!.add(ChartData(xOne, multiplier * ke));
   }
@@ -187,8 +190,10 @@ class ActionsView {
   void updateVelocitiesAfterCollision() {
     double u1 = v1;
     double u2 = v2;
-    v1 = ((massOne - massTwo) / (massOne + massTwo)) * u1 + 2 * (massTwo * u2) / (massOne + massTwo);
-    v2 = ((massTwo - massOne) / (massOne + massTwo)) * u2 + 2 * (massOne * u1) / (massOne + massTwo);
+    v1 = ((massOne - massTwo) / (massOne + massTwo)) * u1 +
+        2 * (massTwo * u2) / (massOne + massTwo);
+    v2 = ((massTwo - massOne) / (massOne + massTwo)) * u2 +
+        2 * (massOne * u1) / (massOne + massTwo);
     double temp1 = xOnePrev;
     double temp2 = xTwoPrev;
     xOnePrev = xOne;

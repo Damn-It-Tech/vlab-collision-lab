@@ -37,7 +37,7 @@ class ButtonsColumn extends StatelessWidget {
         TextButton(
           onPressed: () {
             actionsView.isPaused = false;
-            actionsView.initValues();
+            actionsView.initValues(5, 5, 3, 0);
           },
           child: Image.asset(
             "assets/reset_button.png",
@@ -46,7 +46,7 @@ class ButtonsColumn extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            actionsView.initValues();
+            actionsView.initValues(5, 5, 3, 0);
             actionsView.isPaused = true;
             await showDialog(
                 context: context,
