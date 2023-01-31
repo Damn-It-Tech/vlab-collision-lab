@@ -1,4 +1,4 @@
-# vlab collision lab - Born Oppenheimer Simulation
+# Vlab collision lab - Born Oppenheimer Simulation
 
 ![Banner Image](https://github.com/abhishekspeer/Virtual-Lab/blob/main/banner.png)
 
